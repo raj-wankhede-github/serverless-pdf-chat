@@ -29,6 +29,7 @@ def s3_key_exists(bucket, key):
 
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
+    print(event)
     user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
     file_name_full = event["queryStringParameters"]["file_name"]
     file_name = file_name_full.split(".pdf")[0]
@@ -50,6 +51,7 @@ def lambda_handler(event, context):
     else:
         key = f"{user_id}/{file_name}.pdf/{file_name}.pdf"
 
+    print("Generating pre-sign url")
     presigned_url = s3.generate_presigned_url(
         ClientMethod="put_object",
         Params={

@@ -22,20 +22,29 @@ logger = Logger()
 
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
+    print(event)
     key = urllib.parse.unquote_plus(event["Records"][0]["s3"]["object"]["key"])
     split = key.split("/")
     user_id = split[0]
     file_name = split[1]
+    print(key)
+    print(split)
+    print(user_id)
+    print(file_name)
 
     document_id = shortuuid.uuid()
+    print(document_id)
 
+    print("Downloading file from S3")
     s3.download_file(BUCKET, key, f"/tmp/{file_name}")
 
+    print("Read PDF from pyPDF2")
     with open(f"/tmp/{file_name}", "rb") as f:
         reader = PyPDF2.PdfReader(f)
         pages = str(len(reader.pages))
 
     conversation_id = shortuuid.uuid()
+    print(conversation_id)
 
     timestamp = datetime.utcnow()
     timestamp_str = timestamp.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
@@ -50,9 +59,12 @@ def lambda_handler(event, context):
         "docstatus": "UPLOADED",
         "conversations": [],
     }
+    print(document)
 
     conversation = {"conversationid": conversation_id, "created": timestamp_str}
     document["conversations"].append(conversation)
+    
+    print(document)
 
     document_table.put_item(Item=document)
 
@@ -64,4 +76,6 @@ def lambda_handler(event, context):
         "key": key,
         "user": user_id,
     }
+    print(message)
+    print("Sending to SQS")
     sqs.send_message(QueueUrl=QUEUE, MessageBody=json.dumps(message))

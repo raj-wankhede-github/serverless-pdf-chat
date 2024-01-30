@@ -14,8 +14,9 @@ logger = Logger()
 
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
+    print(event)
     user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
-
+    print(user_id)
     response = document_table.query(KeyConditionExpression=Key("userid").eq(user_id))
     items = sorted(response["Items"], key=lambda item: item["created"], reverse=True)
     for item in items:

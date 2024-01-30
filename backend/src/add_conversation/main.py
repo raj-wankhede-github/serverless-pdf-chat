@@ -16,12 +16,17 @@ logger = Logger()
 
 @logger.inject_lambda_context(log_event=True)
 def lambda_handler(event, context):
+    print(event)
     user_id = event["requestContext"]["authorizer"]["claims"]["sub"]
     document_id = event["pathParameters"]["documentid"]
+    
+    print(user_id)
+    print(document_id)
 
     response = document_table.get_item(
         Key={"userid": user_id, "documentid": document_id}
     )
+    print(response)
     conversations = response["Item"]["conversations"]
     logger.info({"conversations": conversations})
 
