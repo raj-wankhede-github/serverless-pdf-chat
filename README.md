@@ -9,7 +9,7 @@
 - GeneratePresignedUrlFunction GET /dev//generate_presigned_url
 	
 - /frontend/src/components/DocumentUploader.tsx
-  - PUT -> https://<bucket-name>.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/< filename >.pdf
+  - PUT -> https://< bucket-name >.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/< filename >.pdf
 	
 - S3 trigger to Lambda -> UploadTriggerFunction --> sqs.send_message --> GenerateEmbeddingsFunction
 
