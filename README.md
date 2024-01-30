@@ -9,7 +9,7 @@
 - GeneratePresignedUrlFunction GET /dev//generate_presigned_url
 	
 - /frontend/src/components/DocumentUploader.tsx
-  - PUT -> https://<bucket-name>.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/<filename>.pdf
+  - PUT -> https://<bucket-name>.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/< filename >.pdf
 	
 - S3 trigger to Lambda -> UploadTriggerFunction --> sqs.send_message --> GenerateEmbeddingsFunction
 
@@ -28,8 +28,8 @@
 ### write question and press enter
 
 - GenerateResponseFunction POST -> /dev//KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz 
-  - BODY -> {"fileName":"<filename>.pdf","prompt":"What is AWS Lambda?"}
-			
+  - BODY -> {"fileName":"< filename >.pdf","prompt":"What is AWS Lambda?"}
+			 
 - GenerateResponseFunction GET -> /dev//doc/KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz
 	
 ======================================================
@@ -37,7 +37,7 @@
 ### Next question to same documentation
 
 - GenerateResponseFunction POST -> /dev//KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz 
-  - BODY -> {"fileName":"<filename>","prompt":"What is AWS Lambda?"}
+  - BODY -> {"fileName":"< filename >.pdf","prompt":"What is AWS Lambda?"}
 			
 - GenerateResponseFunction GET -> /dev//doc/KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz
 
