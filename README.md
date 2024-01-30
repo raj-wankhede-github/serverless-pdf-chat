@@ -1,5 +1,47 @@
 # Added few print statements to the backend/src main.py files
 
+
+## How architecture works
+======================================================
+
+### Upload document
+
+- GeneratePresignedUrlFunction GET /dev//generate_presigned_url
+	
+- /frontend/src/components/DocumentUploader.tsx
+  - PUT -> https://serverless-pdf-chat-us-east-1-127025035613.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/brihat-parashara-hora-sastra%20%281%29.pdf/brihat-parashara-hora-sastra%20%281%29.pdf
+	
+- S3 trigger to Lambda -> UploadTriggerFunction --> sqs.send_message --> GenerateEmbeddingsFunction
+======================================================
+
+### Refresh document list
+
+- GetAllDocuments GET  --> /dev//doc/
+
+======================================================
+### Load single document from the list
+
+- GetDocumentFunction GET /doc/{documentid}/{conversationid} --> /dev//doc/KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz
+
+======================================================
+### write question and press enter
+
+- GenerateResponseFunction POST -> /dev//KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz 
+  - BODY -> {"fileName":"pkpadmin,+838-4074-1-CE.pdf","prompt":"What is AWS Lambda?"}
+			
+- GenerateResponseFunction GET -> /dev//doc/KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz
+	
+======================================================
+
+### Next question to same documentation
+
+- GenerateResponseFunction POST -> /dev//KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz 
+  - BODY -> {"fileName":"pkpadmin,+838-4074-1-CE.pdf","prompt":"What is AWS Lambda?"}
+			
+- GenerateResponseFunction GET -> /dev//doc/KmH97xhQ9kW6eJ2tgobzeQ/ksSdTuGJ5Egy34ye3E8pzz
+
+======================================================
+
 # Serverless document chat application
 
 This sample application allows you to ask natural language questions of any PDF document you upload. It combines the text generation and analysis capabilities of an LLM with a vector search of the document content. The solution uses serverless services such as [Amazon Bedrock](https://aws.amazon.com/bedrock/) to access foundational models, [AWS Lambda](https://aws.amazon.com/lambda/) to run [LangChain](https://github.com/hwchase17/langchain), and [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) for conversational memory.

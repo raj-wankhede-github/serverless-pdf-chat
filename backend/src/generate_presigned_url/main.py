@@ -62,6 +62,8 @@ def lambda_handler(event, context):
         ExpiresIn=300,
         HttpMethod="PUT",
     )
+    
+    print(presigned_url)
 
     return {
         "statusCode": 200,
