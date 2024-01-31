@@ -10,7 +10,7 @@
 	
 - /frontend/src/components/DocumentUploader.tsx
   - PUT -> https://`bucket-name`.s3.us-east-1.amazonaws.com/d4a8e468-2091-70ca-dc11-8670d93e58e9/`filename`.pdf
-	
+	- d4a8e468-2091-70ca-dc11-8670d93e58e9 is ther user name in Cognito user pool.
 - S3 trigger to Lambda -> UploadTriggerFunction --> sqs.send_message --> GenerateEmbeddingsFunction
 
 ======================================================
@@ -43,6 +43,11 @@
 
 ======================================================
 
+### Start new converstaion within PDF
+
+AddConversationFunction -> POST /dev//doc/UbjFNbebUKWj8ovWTetNCH
+
+======================================================
 # Serverless document chat application
 
 This sample application allows you to ask natural language questions of any PDF document you upload. It combines the text generation and analysis capabilities of an LLM with a vector search of the document content. The solution uses serverless services such as [Amazon Bedrock](https://aws.amazon.com/bedrock/) to access foundational models, [AWS Lambda](https://aws.amazon.com/lambda/) to run [LangChain](https://github.com/hwchase17/langchain), and [Amazon DynamoDB](https://aws.amazon.com/dynamodb/) for conversational memory.
